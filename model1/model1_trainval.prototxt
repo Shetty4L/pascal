@@ -13,7 +13,7 @@ layer {
 	}
 	data_param {
 		source: "../lmdb/train_lmdb"
-		batch_size: 200
+		batch_size: 256
 		backend: LMDB
 	}
 }
@@ -30,7 +30,7 @@ layer {
 		phase: TEST
 	}
 	data_param {
-		source: "datasets/mnist_test_lmdb"
+		source: "../lmdb/val_lmdb"
 		batch_size: 100
 		backend: LMDB
 	}
@@ -49,7 +49,7 @@ layer {
 		decay_mult: 0
 	}
 	convolution_param {
-		num_output: 64
+		num_output: 32
 		kernel_size: 5
 		stride: 2
 		weight_filler {

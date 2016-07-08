@@ -3,6 +3,7 @@ set xlabel 'Number of Iterations'
 set key off
 set term png
 
+directory = 'model1'
 train_log = directory.'.log.train'
 test_log = directory.'.log.test'
 

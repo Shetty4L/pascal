@@ -1,2 +1,6 @@
 VOCtrainval_25-May-2011.tar
 .ipynb_checkpoints/
+lmdb/train_lmdb
+lmdb/val_lmdb
+model1/snapshots
+data/
