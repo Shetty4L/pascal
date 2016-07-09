@@ -13,7 +13,7 @@ layer {
 	}
 	data_param {
 		source: "../lmdb/train_lmdb"
-		batch_size: 200
+		batch_size: 256
 		backend: LMDB
 	}
 }
@@ -30,8 +30,8 @@ layer {
 		phase: TEST
 	}
 	data_param {
-		source: "datasets/mnist_test_lmdb"
-		batch_size: 100
+		source: "../lmdb/mean_file.binaryproto"
+		batch_size: 128
 		backend: LMDB
 	}
 }
@@ -203,7 +203,7 @@ layer {
 	name: "fc5"
 	type: "InnerProduct"
 	bottom: "fc4"
-	top: "fc4"
+	top: "fc5"
 	param {
 		lr_mult: 1
 		decay_mult: 0
