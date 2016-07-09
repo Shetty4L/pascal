@@ -30,7 +30,7 @@ layer {
 		phase: TEST
 	}
 	data_param {
-		source: "../lmdb/mean_file.binaryproto"
+		source: "../lmdb/val_lmdb"
 		batch_size: 128
 		backend: LMDB
 	}
