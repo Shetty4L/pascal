@@ -4,9 +4,9 @@ set key off
 set term png
 
 
-directory = 'model2/adam_0.0001_aug'
-train_log = 'model2.log.train'
-test_log = 'model2.log.test'
+directory = 'model4/adam_aug'
+train_log = 'model4.log.train'
+test_log = 'model4.log.test'
 
 set title 'Plot of Iterations vs Loss'
 set ylabel 'Loss'
