@@ -68,6 +68,17 @@ layer {
 	top: "conv1"
 }
 layer {
+	name: "norm1"
+	type: "LRN"
+	bottom: "conv1"
+	top: "norm1"
+	lrn_param {
+	    local_size: 5
+	    alpha: 0.0001
+	    beta: 0.75
+	}
+}
+layer {
 	name: "pool1"
 	type: "Pooling"
 	bottom: "conv1"
@@ -76,15 +87,6 @@ layer {
 		pool: MAX
 		kernel_size: 3
 		stride: 2
-	}
-}
-layer {
-	name: "dropout1"
-	type: "Dropout"
-	bottom: "pool1"
-	top: "pool1"
-	dropout_param {
-		dropout_ratio: 0.5
 	}
 }
 layer {
@@ -120,10 +122,15 @@ layer {
 	top: "conv2"
 }
 layer {
-	name: "dropout2"
-	type: "ReLU"
+	name: "norm2"
+	type: "LRN"
 	bottom: "conv2"
-	top: "conv2"
+	top: "norm2"
+	lrn_param {
+		local_size: 5
+		alpha: 0.0001
+		beta: 0.75
+	}
 }
 layer {
 	name: "conv3"
