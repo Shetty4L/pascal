@@ -5,4 +5,6 @@ lmdb/val_lmdb
 model1/snapshots
 model2/snapshots
 model3/snapshots
+model4/snapshots
+model5/snapshots
 data/
