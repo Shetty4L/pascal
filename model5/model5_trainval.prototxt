@@ -13,7 +13,7 @@ layer {
 	}
 	data_param {
 		source: "../lmdb/train_lmdb"
-		batch_size: 256
+		batch_size: 64
 		backend: LMDB
 	}
 }
@@ -31,7 +31,7 @@ layer {
 	}
 	data_param {
 		source: "../lmdb/val_lmdb"
-		batch_size: 128
+		batch_size: 32
 		backend: LMDB
 	}
 }
@@ -49,7 +49,7 @@ layer {
 		decay_mult: 0
 	}
 	convolution_param {
-		num_output: 128
+		num_output: 32
 		kernel_size: 7
 		stride: 1
 		pad: 3
@@ -93,7 +93,7 @@ layer {
 		decay_mult: 0
 	}
 	convolution_param {
-		num_output: 128
+		num_output: 32
 		kernel_size: 5
 		stride: 1
 		pad: 2
@@ -148,7 +148,7 @@ layer {
 		decay_mult: 0
 	}
 	convolution_param {
-		num_output: 256
+		num_output: 64
 		kernel_size: 5
 		stride: 3
 		pad: 65
@@ -192,7 +192,7 @@ layer {
 		decay_mult: 0
 	}
 	convolution_param {
-		num_output: 256
+		num_output: 64
 		kernel_size: 3
 		stride: 1
 		pad: 1
@@ -223,10 +223,21 @@ layer {
 	}
 }
 layer {
-	name: "conv5"
-	type: "Convolution"
+	name: "pool4"
+	type: "Pooling"
 	bottom: "norm4"
-	top: "conv5"
+	top: "pool4"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+	}
+}
+layer {
+	name: "fc5"
+	type: "InnerProduct"
+	bottom: "pool4"
+	top: "fc5"
 	param {
 		lr_mult: 1
 		decay_mult: 0
@@ -235,52 +246,36 @@ layer {
 		lr_mult: 2
 		decay_mult: 0
 	}
-	convolution_param {
-		num_output: 256
-		kernel_size: 3
-		stride: 1
-		pad: 1
+	inner_product_param {
+		num_output: 1024
 		weight_filler {
 			type: "xavier"
 		}
 		bias_filler {
 			type: "constant"
-			value: 0.1
+			value: 0
 		}
 	}
 }
 layer {
 	name: "relu5"
 	type: "ReLU"
-	bottom: "conv5"
-	top: "conv5"
+	bottom: "fc5"
+	top: "fc5"
 }
 layer {
-	name: "norm5"
-	type: "LRN"
-	bottom: "conv5"
-	top: "norm5"
-	lrn_param {
-		local_size: 5
-		alpha: 0.0001
-		beta: 0.75
-	}
-}
-layer {
-	name: "pool5"
-	type: "Pooling"
-	bottom: "norm5"
-	top: "pool5"
-	pooling_param {
-		pool: MAX
-		kernel_size: 3
-		stride: 2
+	name: "dropout5"
+	type: "Dropout"
+	bottom: "fc5"
+	top: "fc5"
+	dropout_param {
+		dropout_ratio: 0.5
 	}
 }
 layer {
 	name: "fc6"
 	type: "InnerProduct"
-	bottom: "pool5"
+	bottom: "fc5"
 	top: "fc6"
 	param {
 		lr_mult: 1
@@ -291,7 +286,7 @@ layer {
 		decay_mult: 0
 	}
 	inner_product_param {
-		num_output: 4096
+		num_output: 1024
 		weight_filler {
 			type: "xavier"
 		}
@@ -330,45 +325,6 @@ layer {
 		decay_mult: 0
 	}
 	inner_product_param {
-		num_output: 4096
-		weight_filler {
-			type: "xavier"
-		}
-		bias_filler {
-			type: "constant"
-			value: 0
-		}
-	}
-}
-layer {
-	name: "relu7"
-	type: "ReLU"
-	bottom: "fc7"
-	top: "fc7"
-}
-layer {
-	name: "dropout7"
-	type: "Dropout"
-	bottom: "fc7"
-	top: "fc7"
-	dropout_param {
-		dropout_ratio: 0.5
-	}
-}
-layer {
-	name: "fc8"
-	type: "InnerProduct"
-	bottom: "fc7"
-	top: "fc8"
-	param {
-		lr_mult: 1
-		decay_mult: 0
-	}
-	param {
-		lr_mult: 2
-		decay_mult: 0
-	}
-	inner_product_param {
 		num_output: 20
 		weight_filler {
 			type: "xavier"
@@ -382,14 +338,14 @@ layer {
 layer {
 	name: "loss"
 	type: "SoftmaxWithLoss"
-	bottom: "fc8"
+	bottom: "fc7"
 	bottom: "label"
 	top: "loss"
 }
 layer {
 	name: "accuracy"
 	type: "Accuracy"
-	bottom: "fc8"
+	bottom: "fc7"
 	bottom: "label"
 	top: "accuracy"
 	include {
@@ -399,7 +355,7 @@ layer {
 layer {
 	name: "accuracy"
 	type: "Accuracy"
-	bottom: "fc8"
+	bottom: "fc7"
 	bottom: "label"
 	top: "accuracy"
 	include {
