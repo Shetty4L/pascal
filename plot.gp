@@ -3,9 +3,9 @@ set xlabel 'Number of Iterations'
 set key off
 set term png
 
-directory = 'model1/adam_0.00001'
-train_log = 'model1.log.train'
-test_log = 'model1.log.test'
+directory = 'model2/adam_1'
+train_log = 'model2.log.train'
+test_log = 'model2.log.test'
 
 set title 'Plot of Iterations vs Loss'
 set ylabel 'Loss'
