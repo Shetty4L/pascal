@@ -3,4 +3,6 @@ VOCtrainval_25-May-2011.tar
 lmdb/train_lmdb
 lmdb/val_lmdb
 model1/snapshots
+model2/snapshots
+model3/snapshots
 data/
