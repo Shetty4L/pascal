@@ -5,9 +5,9 @@ set key spacing 1.5
 set term png
 
 
-directory = 'model5/adam_0.0001'
-train_log = 'model5.log.train'
-test_log = 'model5.log.test'
+directory = 'model3/finetune_only_fc'
+train_log = 'model3.log.train'
+test_log = 'model3.log.test'
 
 set title 'Plot of Iterations vs Loss'
 set ylabel 'Loss'
