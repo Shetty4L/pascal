@@ -5,4 +5,5 @@ lmdb/val_lmdb
 *.solverstate
 *.caffemodel
 data/
+/plots
 test_data/

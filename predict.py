@@ -28,26 +28,26 @@ def main():
 	transformer.set_raw_scale('data',255)
 	transformer.set_channel_swap('data', (2,1,0))
 
-	images = ['2008_003149.jpg','2009_002884.jpg']
+	# images = os.listdir('plots/incorrect')
 
-	# images = ['horse.jpg','sheep.jpg','aeroplane.jpg','boat.jpg']
+	images = ['horse.jpg','sheep.jpg','aeroplane.jpg','boat.jpg']
 	true_labels = ['aeroplane','bicycle','bird','boat','bottle','bus','car','cat','chair','cow','diningtable','dog','horse','motorbike','person','pottedplant','sheep','sofa','train','tvmonitor']
 	
 	print 'Actual images: ',images
 	print 'Predicated labels: '
 	for image_name in images:
-		image_name = 'test_data/images/%s'%image_name
+		image_name = 'test_data/%s'%image_name
 		image = caffe.io.load_image(image_name,color=True)
 		image = caffe.io.resize_image(image,(128,128))
 		net.blobs['data'].data[...] = transformer.preprocess('data', image)
 		result = net.forward()
 		output = result['prob'][0]
 
-		plt.figure()
-		plt.imshow(mpimg.imread(image_name))
-		plt.show()
+		# plt.figure()
+		# plt.imshow(mpimg.imread(image_name))
+		# plt.show()
 
-		print true_labels[output.argmax()]
+		print image_name, true_labels[output.argmax()]
 
 if __name__ == '__main__':
 	main()
