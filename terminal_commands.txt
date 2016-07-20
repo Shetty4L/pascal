@@ -1,0 +1,20 @@
+~/caffe/python/draw_net.py pascal_train.prototxt model_dropout.png
+
+~/caffe/build/tools/compute_image_mean lmdb/train_lmdb data/mean.binaryproto
+
+~/caffe/build/tools/caffe train --solver=solver.prototxt 2>&1 | tee train.log
+~/caffe/build/tools/caffe train --solver=solver.prototxt --snapshot=pascal_iter_1000.solverstate 2>&1 | tee train.log
+
+python ~/caffe/tools/extra/parse_log.py train.log ./
+
+gnuplot plot.gb
+
+Commands for gnuplot:
+> set datafile separator ','
+> set xlabel <...>
+> set ylabel <...>
+> set key box linestyle 1 linetype rgb "#000000"
+> set key spacing #
+> set term png
+> set output <fname.png>
+> plot <log-file> using 1:4 with line title <...> linetype "#"
